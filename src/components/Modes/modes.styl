@@ -1,0 +1,233 @@
+.mode
+    margin vh(28, 1024) 12px 0
+
+.display-area
+    background-color _white
+    border 1px solid _black
+    padding vh(12, 1024) 24px vh(19, 1024)
+
+.note-area
+    margin-top 11px
+    height vh(754, 1024)
+    background-color _grey1
+
+.track-tab-list
+    padding-left 20px
+    display flex
+    align-items flex-end
+
+.track-tab-contain
+    overflow-x auto
+    max-width calc(100% - 24px)
+    width 100%
+    display flex
+
+.track-tab
+    padding 9px 12px 2px
+    width 193px
+    background-color _white
+    border 1px solid _grey3
+    border-bottom-width 0
+    text-align center
+    font-size 27px
+    margin-right 20px
+    color _grey3
+    user-select none
+    cursor pointer
+    flex-shrink 1
+    white-space nowrap
+
+.new-track-tab
+    background-color _violet
+    height vh(40, 1024)
+    width 54px
+    display flex 
+    align-items center
+    justify-content center
+    cursor pointer
+    margin-right 20px
+
+    &:hover .new-track-tab__plus-contain
+        fill _grey3
+
+    &:active .new-track-tab__plus-contain
+        fill _grey1
+
+.new-track-tab__plus-contain
+    fill _white
+
+.sequence-controls
+    display flex
+    align-items center
+    justify-content center
+    padding 0 6px
+    height vh(38, 1024)
+    font-size 27px
+    color _grey2
+
+.instrument-control
+    display flex
+    align-items center
+    height 100%
+    margin-right 65px
+
+    span
+        margin-right 13px
+
+.instrument-control-dropdown
+    border 1px solid _grey2
+    display flex
+    padding-right 9px
+    align-items center
+    height 100%
+    cursor pointer
+
+.instrument-control-dropdown__list
+    display flex
+    align-items center
+
+.instrument-control-dropdown__item
+    width 181px
+    height 24px
+
+    img
+        width 100%
+
+.instrument-control-overlay
+    position absolute
+    top 0
+    left 0
+    right 0
+    z-index 1
+
+.instrument-control-overlay__item
+    height vh(38, 1024)
+    display flex  
+    align-items center
+    border-top 1px solid _grey2
+    background-color _white
+
+    &:first-of-type
+        border none
+
+    &:hover
+        background-color _violet
+
+.instrument-control-overlay__img-wrap
+    width 181px
+    height 24px
+
+    img
+        width 100%
+
+    &:hover
+        background-color _violet
+
+.rename-control
+    cursor pointer
+
+    &:after
+        content ''
+        position absolute
+        background-color _grey3
+        width 101%
+        height 3px
+        left 0
+        bottom -4px
+
+    &:hover
+        color _grey1
+
+        &:after
+            background-color _grey2
+
+.delete-control
+    background-color _red
+    color _white
+    height 100%
+    display flex
+    align-items center
+    padding 0 46px
+    align-self flex-end
+    margin-left 65px
+    cursor pointer
+    user-select none
+
+    &:hover
+        color _grey3
+
+.color-control
+    height vh(38, 1024)
+    margin-left auto
+    cursor pointer
+
+    img
+        height 100%
+
+.note-area
+    overflow auto
+
+.note-lane
+    height 34px
+    display flex
+    align-items center
+
+.note-lane__label
+    display inline-block
+    padding-left 14px
+    color #fff
+    font-size 27px
+    width 93px
+    flex-shrink 0
+
+.notes
+    display flex
+    flex-shrink 0
+
+.note
+    background-color _grey3
+    height 30px
+    width 30px
+    margin-right 4px
+    vertical-align bottom
+    cursor pointer
+
+.note--beat
+    background-color _grey2
+
+.note--active
+    background-color _yellow
+
+.note--active.note--beat
+    background-color _orange
+
+.note--sustain
+    background-color _lightgreen
+    
+.note--sustain.note--beat
+    background-color _green
+
+.note--current
+    background-color _cyan
+
+.note--current.note--active
+    background-color _lightblue
+
+.note--current.note--beat
+    background-color _blue
+
+.note--current.note--sustain
+    background-color _lightred
+
+.note--phony
+    rect
+        background-color _grey1
+
+    div
+        position absolute
+        top 0
+        right 0
+        left 0
+        bottom 0
+        background-image url('./images/phonyPattern.svg')
+        background-size cover

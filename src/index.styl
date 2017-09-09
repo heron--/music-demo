@@ -1,0 +1,38 @@
+//Coolors
+_black      = #000000
+_white      = #FFFFFF
+_red        = #880000
+_cyan       = #AAFFEE
+_violet     = #CC44CC
+_green      = #00CC55
+_blue       = #0000AA
+_yellow     = #EEEE77
+_orange     = #DD8855
+_brown      = #664400
+_lightred   = #FF7777
+_grey1      = #333333
+_grey2      = #777777
+_lightgreen = #AAFF66
+_lightblue  = #0088FF
+_grey3      = #BBBBBB
+
+vh(px, canvas)
+    unit((px / canvas) * 100, 'vh')
+
+@import './components/App/app.styl'
+@import './components/Nav/nav.styl'
+@import './components/Modes/modes.styl'
+@import './components/Modal/modal.styl'
+@import './font.css'
+
+html
+    background-color _lightblue
+
+*
+    box-sizing border-box
+    position relative
+
+body
+    margin 0
+    padding 0
+    font-family 'VT323', monospace

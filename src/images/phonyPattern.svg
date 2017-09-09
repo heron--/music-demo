@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" jversion="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <rect height="3px" width="3px" y="0" x="0"></rect>
+    <rect height="3px" width="3px" y="0" x="6px"></rect>
+    <rect height="3px" width="3px" y="0" x="12px"></rect>
+    <rect height="3px" width="3px" y="0" x="18px"></rect>
+    <rect height="3px" width="3px" y="0" x="24px"></rect>
+
+    <rect height="3px" width="3px" y="6px" x="3px"></rect>
+    <rect height="3px" width="3px" y="6px" x="9px"></rect>
+    <rect height="3px" width="3px" y="6px" x="15px"></rect>
+    <rect height="3px" width="3px" y="6px" x="21px"></rect>
+    <rect height="3px" width="3px" y="6px" x="27px"></rect>
+
+    <rect height="3px" width="3px" y="12px" x="0"></rect>
+    <rect height="3px" width="3px" y="12px" x="6px"></rect>
+    <rect height="3px" width="3px" y="12px" x="12px"></rect>
+    <rect height="3px" width="3px" y="12px" x="18px"></rect>
+    <rect height="3px" width="3px" y="12px" x="24px"></rect>
+
+    <rect height="3px" width="3px" y="18px" x="3px"></rect>
+    <rect height="3px" width="3px" y="18px" x="9px"></rect>
+    <rect height="3px" width="3px" y="18px" x="15px"></rect>
+    <rect height="3px" width="3px" y="18px" x="21px"></rect>
+    <rect height="3px" width="3px" y="18px" x="27px"></rect>
+
+    <rect height="3px" width="3px" y="24px" x="0"></rect>
+    <rect height="3px" width="3px" y="24px" x="6px"></rect>
+    <rect height="3px" width="3px" y="24px" x="12px"></rect>
+    <rect height="3px" width="3px" y="24px" x="18px"></rect>
+    <rect height="3px" width="3px" y="24px" x="24px"></rect>
+</svg> 

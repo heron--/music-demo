@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'VT323';
+  src: url('./assets/fonts/VT323-Regular.eot'); /* IE9 Compat Modes */
+  src: url('./assets/fonts/VT323-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('./assets/fonts/VT323-Regular.woff') format('woff'), /* Modern Browsers */
+       url('./assets/fonts/VT323-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('./assets/fonts/VT323-Regular.svg#9b92a3d4318cca92e64c6619a69d43ed') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  400;
+}
+
