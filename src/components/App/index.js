@@ -39,7 +39,7 @@ class App extends Component {
             trackControl
         } = this.props;
 
-        if(trackControl.currentTrack === null && trackControl.tracks.length === 0) {
+        if(trackControl.currentTrack === null && trackControl.tracks.length > 0) {
             updateCurrentTrack(trackControl.tracks[0].id);
         }
     }
