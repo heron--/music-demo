@@ -1,4 +1,4 @@
-import tracksReducer, { initialState } from '../trackControl';
+import tracksReducer, { initialState, initialNoteCount } from '../trackControl';
 import freq from '../../frequencies';
 import { addTrack, deleteTrack, updateTrackName, updateTrackColor, updateTrackInstrument, updateCurrentTrack, updateNotePosition, cycleNote } from '../../actions';
 
@@ -51,7 +51,6 @@ describe('ADD_TRACK', () => {
 
     it('should contain a total of freq.length * initialLaneCount notes', () => {
         let noteCount = 0;
-        const initialNoteCount = 16;
         const reducedState = tracksReducer(undefined, createAddTrackAction());
 
         reducedState.tracks.forEach(t => {

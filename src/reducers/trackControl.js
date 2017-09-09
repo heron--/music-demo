@@ -7,7 +7,7 @@ export const initialState = {
     tracks: [] 
 };
 
-const initialNoteCount = 32;
+export const initialNoteCount = 32;
 let trackIdAccumulator = 0;
 
 const trackControl = (state = initialState, action) => {
