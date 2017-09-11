@@ -3,7 +3,7 @@ import CONST from '../constants';
 
 export const initialState = {
     currentTrack: null,
-    notePosition: 0,
+    notePosition: null,
     tracks: [] 
 };
 
@@ -46,11 +46,19 @@ const trackControl = (state = initialState, action) => {
         case 'UPDATE_CURRENT_TRACK':
             return Object.assign({}, state, {
                 currentTrack: action.id,
-                notePosition: 0
+                notePosition: null
             });
-        case 'UPDATE_NOTE_POSITION':
+        case 'INCREMENT_CURRENT_NOTE':
+            
+            let nextPosition = state.notePosition === null ? 0 : state.notePosition + 1;
+            const currentTrackObj = state.tracks.filter(t => t.id === state.currentTrack)[0];
+
+            if(nextPosition >= currentTrackObj.noteCount) {
+                nextPosition = 0;
+            }
+
             return Object.assign({}, state, {
-                notePosition: action.position
+                notePosition: nextPosition
             });
         default:
             return state;

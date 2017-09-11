@@ -16,6 +16,10 @@ const controls = (state = {}, action) => {
             return Object.assign({}, state, {
                 mode: action.mode
             });
+        case 'SET_PLAYSTATE':
+            return Object.assign({}, state, {
+                playstate: action.playstate
+            });
         default: 
             return state;
     }

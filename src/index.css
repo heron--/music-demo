@@ -38,15 +38,12 @@
   display: flex;
   justify-content: space-between;
 }
-.nav-control-buttons__play {
-  width: 30px;
-}
-.nav-control-buttons__play img {
-  width: 100%;
-}
+.nav-control-buttons__play,
 .nav-control-buttons__pause {
   width: 30px;
+  cursor: pointer;
 }
+.nav-control-buttons__play img,
 .nav-control-buttons__pause img {
   width: 100%;
 }
@@ -317,10 +314,11 @@
 .note--current.note--active {
   background-color: #08f;
 }
-.note--current.note--beat {
+.note--current.note--beat.note--active {
   background-color: #00a;
 }
-.note--current.note--sustain {
+.note--current.note--sustain,
+.note--current.note--sustain.note--beat.note--active {
   background-color: #f77;
 }
 .note--phony rect {

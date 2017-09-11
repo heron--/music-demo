@@ -6,7 +6,8 @@ const NoteArea = ({
     id,
     noteLanes,
     cycleNote,
-    trackId
+    trackId,
+    notePosition
 }) => {
 
     if(typeof noteLanes === 'undefined') {
@@ -16,13 +17,14 @@ const NoteArea = ({
     return (
         <div className="note-area">
             {
-                noteLanes.map(nl => <NoteLane key={`${nl.name}-${nl.octave}`} {...nl} cycleNote={ cycleNote } trackId={ id } />) 
+                noteLanes.map(nl => <NoteLane key={`${nl.name}-${nl.octave}`} {...nl} cycleNote={ cycleNote } trackId={ id } notePosition={ notePosition } />) 
             }
         </div>
     );
 };
 
 const NoteLane = ({
+    notePosition,
     trackId,
     value,
     name,
@@ -51,7 +53,8 @@ const NoteLane = ({
                             'note': true,
                             'note--active': n.active,
                             'note--sustain': n.sustain,
-                            'note--beat': i % 4 === 0
+                            'note--beat': i % 4 === 0,
+                            'note--current': i === notePosition
                         });
 
                         return (

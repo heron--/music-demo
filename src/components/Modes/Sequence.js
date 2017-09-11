@@ -7,6 +7,7 @@ import NoteArea from './components/NoteArea';
 const Sequence = ({
     tracks,
     currentTrack,
+    notePosition,
     updateCurrentTrack,
     addTrack,
     setModalMode,
@@ -22,7 +23,7 @@ const Sequence = ({
             <TrackTabList tracks={ tracks } currentTrack={ currentTrack } updateCurrentTrack={ updateCurrentTrack } addTrack={ addTrack } />
             <div className="display-area display-area--sequence">
                 <SequenceControls setModalMode={ setModalMode } hideControls={ tracks.length === 0 } currentInstrument={ currentInstrument } selectInstrument={ selectInstrument }/>
-                <NoteArea { ...(currentTrackObj === 'undefined') ? {} : currentTrackObj } cycleNote={ cycleNote } />
+                <NoteArea { ...(currentTrackObj === 'undefined') ? {} : currentTrackObj } cycleNote={ cycleNote } notePosition={ notePosition } />
             </div>
         </div>
     );

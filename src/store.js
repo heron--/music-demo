@@ -11,7 +11,8 @@ const initialState = {
     controls: {
         BPM: 0.55,
         volume: 0.7,
-        mode: CONST.MODES.SEQUENCE
+        mode: CONST.MODES.SEQUENCE,
+        playstate: 'none'
     },
     trackControl
 };

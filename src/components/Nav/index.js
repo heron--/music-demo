@@ -1,17 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import roundTo from 'round-to';
-import { setBPM, setVolume } from '../../actions';
+import { setBPM, setVolume, setPlaystate } from '../../actions';
 import CONST from '../../constants';
 import paletteImage from '../../images/palette.svg';
 import Slider from './components/Slider';
 import pauseButton from '../../images/pause-button.svg';
 import playButton from '../../images/play-button.svg';
+import pauseButtonActive from '../../images/pause-button--active.svg';
+import playButtonActive from '../../images/play-button--active.svg';
 
 const Nav = ({
     controls,
     setBPM,
-    setVolume
+    setVolume,
+    setPlaystate
 }) => {
 	return (
 		<nav className="nav">
@@ -22,7 +25,7 @@ const Nav = ({
 
             <div className="nav-controls">
                 <BPMSlider currentBPM={ controls.BPM } setBPM={ setBPM } />
-                <Buttons />
+                <Buttons setPlaystate={ setPlaystate } playstate={ controls.playstate } />
                 <VolumeSlider setVolume={ setVolume } currentVolume={ controls.volume }/>
             </div>
 
@@ -59,15 +62,19 @@ const VolumeSlider = ({
     );
 }
 
-const Buttons = () => {
+const Buttons = ({
+    playstate,
+    setPlaystate
+}) => {
+
     return (
         <div className="nav-control-buttons">
-            <div className="nav-control-buttons__play">
-                <img src={ playButton } alt="play"/>
+            <div className="nav-control-buttons__play" onClick={() => {setPlaystate('PLAYING')}}>
+                <img src={ playstate === 'PLAYING' ? playButtonActive : playButton } alt="play"/>
             </div> 
 
-            <div className="nav-control-buttons__pause">
-                <img src={ pauseButton } alt="pause"/>
+            <div className="nav-control-buttons__pause" onClick={() => { setPlaystate('PAUSED')}}>
+                <img src={ playstate === 'PAUSED' ? pauseButtonActive : pauseButton } alt="pause"/>
             </div>
         </div> 
     );
@@ -82,7 +89,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         setBPM: value => dispatch(setBPM(value)),
-        setVolume: value => dispatch(setVolume(value))
+        setVolume: value => dispatch(setVolume(value)),
+        setPlaystate: playstate => dispatch(setPlaystate(playstate))
     }
 }
 

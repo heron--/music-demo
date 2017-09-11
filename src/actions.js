@@ -96,3 +96,26 @@ export function closeModal() {
         type: 'CLOSE_MODAL'
     };
 }
+
+export function triggerPhonyNote(id, name, octave, index) {
+    return {
+        type: 'TRIGGER_PHONY_NOTE',
+        id,
+        name,
+        octave,
+        index
+    };
+}
+
+export function setPlaystate(playstate) {
+    return {
+        type: 'SET_PLAYSTATE',
+        playstate
+    };
+}
+
+export function incrementCurrentNote() {
+    return {
+        type: 'INCREMENT_CURRENT_NOTE'
+    };
+}
