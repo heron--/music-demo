@@ -44,7 +44,6 @@ const BPMSlider = ({
     return (
         <div className="bpm-slider">
             <div className="bpm-slider__label">BPM</div>
-            <div className="bpm-slider__display">{ displayBPM }</div>
             <Slider handleChange={ setBPM } currentValue={ currentBPM } />
         </div>
     );
