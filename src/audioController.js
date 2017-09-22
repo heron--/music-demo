@@ -1,6 +1,14 @@
 import CONST from './constants';
 import { incrementCurrentNote as createIncNoteAction } from './actions';
 
+const instrumentLookup = {
+    [CONST.INSTRUMENTS.SQUARE.name]: 'square',
+    [CONST.INSTRUMENTS.TRIANGLE.name]: 'triangle',
+    [CONST.INSTRUMENTS.SAWTOOTH.name]: 'sawtooth',
+    [CONST.INSTRUMENTS.PULSE.name]: 'custom',
+    [CONST.INSTRUMENTS.NOISE.name]: 'custom'
+};
+
 function AudioController(store) {
     this.store = store;
     this.unsubscribe = this.store.subscribe(this.handleStateChange.bind(this));
@@ -29,13 +37,18 @@ AudioController.prototype.handleStateChange = function handleStateChange() {
         if(this.tracks.filter(t => t.id  === currentTrack.id).length === 0) {
             this.initTrack(currentTrack);
         } else {
+
             const localTrack = this.tracks.filter(t => t.id === currentTrack.id)[0];
 
             localTrack.noteLanes.forEach((nl,i) => {
                 if(nl.notes !== currentTrack.noteLanes[i].notes) {
                     nl.notes = currentTrack.noteLanes[i].notes;
                 }
-            })
+            });
+
+            if(localTrack.instrument !== currentTrack.instrument) {
+                this.updateInstrument(localTrack, currentTrack.instrument);
+            }
         }
     }
 };
@@ -71,14 +84,14 @@ AudioController.prototype.incrementCurrentNote = function incrementCurrentNote()
 };
 
 AudioController.prototype.playNotes = function playNotes() {
-    const currentState = this.store.getState();
+    const state = this.store.getState();
 
-    const currentTrack = this.tracks.filter(t => t.id === currentState.trackControl.currentTrack)[0];
-    const notePosition = currentState.trackControl.notePosition;
+    const currentTrack = this.tracks.filter(t => t.id === state.trackControl.currentTrack)[0];
+    const notePosition = state.trackControl.notePosition;
 
     currentTrack.noteLanes.forEach(nl => {
         if(nl.notes[notePosition].active) {
-            nl.gain.gain.value = currentState.controls.volume
+            nl.gain.gain.value = currentTrack.instrument === CONST.INSTRUMENTS.TRIANGLE.name ? state.controls.volume * 1.25 : state.controls.volume
 
             if(!nl.notes[notePosition].sustain) {
                 window.setTimeout(() => {
@@ -92,28 +105,33 @@ AudioController.prototype.playNotes = function playNotes() {
     });
 };
 
-AudioController.prototype.initTrack = function initTrack(track){
+AudioController.prototype.initTrack = function initTrack(track) {
     let trackObject = {...track};
-
-    const instrumentLookup = {
-        [CONST.INSTRUMENTS.SQUARE.name]: 'square',
-        [CONST.INSTRUMENTS.TRIANGLE.name]: 'triangle',
-        [CONST.INSTRUMENTS.SAWTOOTH.name]: 'sawtooth',
-        [CONST.INSTRUMENTS.PULSE.name]: 'custom',
-        [CONST.INSTRUMENTS.NOISE.name]: 'custom'
-    };
 
     trackObject.noteLanes = trackObject.noteLanes.map(nl => {
         return {
             ...nl,
             oscillator: this.audioContext.createOscillator(),
             gain: this.audioContext.createGain(),
+            noise: this.audioContext.createScriptProcessor(1024, 1, 1),
             timeoutId: null
         }
     });
 
     trackObject.noteLanes.forEach(nl => {
-        nl.oscillator.type = instrumentLookup[track.instrument];
+        if(instrumentLookup[track.instrument] === 'custom') {
+
+        } else {
+            nl.oscillator.type = instrumentLookup[track.instrument];
+        }
+
+        nl.noise.onaudioprocess = e => {
+            var output = e.outputBuffer.getChannelData(0);
+            for (var i = 0; i < 1024; i++) {
+                output[i] = (Math.random() * 2 - 1);
+            }
+        }
+
         nl.oscillator.frequency.value = nl.value;
         nl.gain.gain.value = 0;
         nl.oscillator.connect(nl.gain);
@@ -123,5 +141,32 @@ AudioController.prototype.initTrack = function initTrack(track){
 
     this.tracks.push(trackObject)
 }
+
+AudioController.prototype.updateInstrument = function updateInstrument(track, instrument) {
+
+    track.instrument = instrument;
+    track.noteLanes.forEach(nl => {
+
+        nl.oscillator.disconnect();
+        nl.noise.disconnect();
+        nl.gain.disconnect();
+
+        if(CONST.INSTRUMENTS.NOISE.name === instrument) {
+
+            nl.oscillator.type = instrumentLookup[CONST.INSTRUMENTS.SQUARE.name];
+            nl.oscillator.connect(nl.noise);
+            nl.noise.connect(nl.gain);
+            nl.gain.connect(this.audioContext.destination);
+
+        } else {
+
+            nl.oscillator.type = instrumentLookup[instrument]
+            nl.oscillator.connect(nl.gain);
+            nl.gain.connect(this.audioContext.destination);
+
+        }
+    })
+
+};
 
 export default AudioController;
