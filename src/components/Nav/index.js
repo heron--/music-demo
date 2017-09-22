@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import roundTo from 'round-to';
 import { setBPM, setVolume, setPlaystate } from '../../actions';
-import CONST from '../../constants';
 import paletteImage from '../../images/palette.svg';
 import Slider from './components/Slider';
 import pauseButton from '../../images/pause-button.svg';
@@ -38,8 +36,6 @@ const BPMSlider = ({
     currentBPM,
     setBPM
 }) => {
-
-    const displayBPM = roundTo(currentBPM * (CONST.MAX_BPM - CONST.MIN_BPM) + CONST.MIN_BPM, 0);
 
     return (
         <div className="bpm-slider">
