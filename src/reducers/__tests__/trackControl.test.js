@@ -1,6 +1,6 @@
 import tracksReducer, { initialState, initialNoteCount } from '../trackControl';
 import freq from '../../frequencies';
-import { addTrack, deleteTrack, updateTrackName, updateTrackColor, updateTrackInstrument, updateCurrentTrack, updateNotePosition, cycleNote } from '../../actions';
+import { addTrack, deleteTrack, updateTrackName, updateTrackColor, updateTrackInstrument, updateCurrentTrack, cycleNote } from '../../actions';
 
 function createAddTrackAction() {
     return addTrack();
@@ -24,10 +24,6 @@ function createUpdateTrackInstrumentAction(id = 0, instrument = 'PULSE') {
 
 function createUpdateCurrentTrackAction(id = 0) {
     return updateCurrentTrack(id);
-}
-
-function createUpdateNotePositionAction(position) {
-    return updateNotePosition(position);
 }
 
 function createCycleNoteAction(id = 0) {
@@ -193,20 +189,6 @@ describe('UPDATE_CURRENT_TRACK', () => {
         state = tracksReducer(state, createUpdateCurrentTrackAction(trackId));
 
         expect(state.currentTrack).toBe(trackId);
-    });
-});
-
-describe('UPDATE_NOTE_POSITION', () => {
-    it('should change the currentTrack to the id of a selected track', () => {
-        // Intializing state and adding 3 empty tracks
-        let state = initialState;
-        state = tracksReducer(state, createAddTrackAction());
-
-        const trackId = state.tracks[0].id;
-        const notePosition = state.notePosition + 1;
-        state = tracksReducer(state, createUpdateNotePositionAction(notePosition));
-
-        expect(state.notePosition).toBe(notePosition);
     });
 });
 

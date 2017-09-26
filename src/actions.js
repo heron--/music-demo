@@ -67,13 +67,6 @@ export function updateCurrentTrack(id) {
     };
 }
 
-export function updateNotePosition(position) {
-    return {
-        type: 'UPDATE_NOTE_POSITION',
-        position
-    };
-}
-
 export function cycleNote(id, name, octave, index) {
     return {
         type: 'CYCLE_NOTE',
