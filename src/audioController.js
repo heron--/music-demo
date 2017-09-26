@@ -91,7 +91,7 @@ AudioController.prototype.playNotes = function playNotes() {
 
     currentTrack.noteLanes.forEach(nl => {
         if(nl.notes[notePosition].active) {
-            nl.gain.gain.value = currentTrack.instrument === CONST.INSTRUMENTS.TRIANGLE.name ? state.controls.volume * 1.25 : state.controls.volume
+            nl.gain.gain.value = currentTrack.instrument === CONST.INSTRUMENTS.TRIANGLE.name ? state.controls.volume * 1.5 : state.controls.volume
 
             if(!nl.notes[notePosition].sustain) {
                 window.setTimeout(() => {
