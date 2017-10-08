@@ -88,10 +88,12 @@ AudioController.prototype.playNotes = function playNotes() {
     const currentTrack = this.tracks.filter(t => t.id === state.trackControl.currentTrack)[0];
     const notePosition = state.trackControl.notePosition;
     const playLength = currentTrack.instrument === CONST.INSTRUMENTS.NOISE.name ? 10 : 75;
+    const instrumentData = CONST.INSTRUMENTS[Object.keys(CONST.INSTRUMENTS).filter(i => CONST.INSTRUMENTS[i].name === currentTrack.instrument)[0]]
 
     currentTrack.noteLanes.forEach(nl => {
         if(nl.notes[notePosition].active) {
-            nl.gain.gain.value = currentTrack.instrument === CONST.INSTRUMENTS.TRIANGLE.name ? state.controls.volume * 1.5 : state.controls.volume
+            nl.gain.gain.value = state.controls.volume * instrumentData.gainModifier;
+            console.log(nl.gain.gain.value)
 
             if(!nl.notes[notePosition].sustain) {
                 window.setTimeout(() => {

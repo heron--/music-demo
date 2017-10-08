@@ -86,19 +86,23 @@ const constants = {
     INSTRUMENTS: {
         SQUARE: {
             name: 'SQUARE',
-            waveIcon: require('./images/waves/wave-square.svg')
+            waveIcon: require('./images/waves/wave-square.svg'),
+            gainModifier: 1
         },
         TRIANGLE: {
             name: 'TRIANGLE',
-            waveIcon: require('./images/waves/wave-triangle.svg')
+            waveIcon: require('./images/waves/wave-triangle.svg'),
+            gainModifier: 10
         },
         SAWTOOTH: {
             name: 'SAWTOOTH',
-            waveIcon: require('./images/waves/wave-sawtooth.svg')
+            waveIcon: require('./images/waves/wave-sawtooth.svg'),
+            gainModifier: 1
         },
         NOISE: {
             name: 'NOISE',
-            waveIcon: require('./images/waves/wave-noise.svg')
+            waveIcon: require('./images/waves/wave-noise.svg'),
+            gainModifier: 1
         }
     },
     MODES: {
