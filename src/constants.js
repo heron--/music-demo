@@ -96,10 +96,6 @@ const constants = {
             name: 'SAWTOOTH',
             waveIcon: require('./images/waves/wave-sawtooth.svg')
         },
-        PULSE: {
-            name: 'PULSE',
-            waveIcon: require('./images/waves/wave-pulse.svg')
-        },
         NOISE: {
             name: 'NOISE',
             waveIcon: require('./images/waves/wave-noise.svg')

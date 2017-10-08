@@ -5,7 +5,7 @@ const instrumentLookup = {
     [CONST.INSTRUMENTS.SQUARE.name]: 'square',
     [CONST.INSTRUMENTS.TRIANGLE.name]: 'triangle',
     [CONST.INSTRUMENTS.SAWTOOTH.name]: 'sawtooth',
-    [CONST.INSTRUMENTS.PULSE.name]: 'custom',
+    // [CONST.INSTRUMENTS.PULSE.name]: 'custom',
     [CONST.INSTRUMENTS.NOISE.name]: 'custom'
 };
 
