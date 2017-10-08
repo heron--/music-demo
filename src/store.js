@@ -1,5 +1,6 @@
-import { createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
+import { persistStore, autoRehydrate } from 'redux-persist'
 import rootReducer from './reducers/';
 import CONST from './constants';
 import { initialState as trackControl } from './reducers/trackControl';
@@ -23,19 +24,32 @@ const stores = () => {
             return () => createStore(
                 rootReducer,
                 initialState,
-                applyMiddleware(logger)
+                compose(
+                    applyMiddleware(logger),
+                    autoRehydrate()
+                )
             );
         case 'production':
             return () => createStore(
                 rootReducer,
-                initialState
+                initialState,
+                compose(
+                    autoRehydrate()
+                )
             );
         default:
             return () => createStore(
                 rootReducer,
-                initialState
+                initialState,
+                compose(
+                    autoRehydrate()
+                )
             );
     }
 };
 
-export const store = stores(process.env.NODE_ENV)();
+const store = stores(process.env.NODE_ENV)();
+
+persistStore(store);
+
+export { store };
