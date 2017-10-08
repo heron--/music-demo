@@ -88,6 +88,7 @@ AudioController.prototype.playNotes = function playNotes() {
 
     const currentTrack = this.tracks.filter(t => t.id === state.trackControl.currentTrack)[0];
     const notePosition = state.trackControl.notePosition;
+    const playLength = currentTrack.instrument === CONST.INSTRUMENTS.NOISE.name ? 10 : 75;
 
     currentTrack.noteLanes.forEach(nl => {
         if(nl.notes[notePosition].active) {
@@ -96,13 +97,37 @@ AudioController.prototype.playNotes = function playNotes() {
             if(!nl.notes[notePosition].sustain) {
                 window.setTimeout(() => {
                     nl.gain.gain.value = 0;
-                }, 100) // Make this not hard coded later
+                }, playLength) // Make this not hard coded later
+            } else {
+                const sustainLength = (60 / ((state.controls.BPM * (CONST.MAX_BPM - CONST.MIN_BPM) + CONST.MIN_BPM) * 4)) * 1000; // milliseconds
+                const nextNote = notePosition === nl.notes.length - 1 ? nl.notes[0] : nl.notes[notePosition + 1];
+                if(!nextNote.sustain) {
+                    window.setTimeout(() => {
+                        nl.gain.gain.value = 0; 
+                    }, sustainLength);
+                }
             }
         } else {
             nl.gain.gain.value = 0;
             window.clearTimeout(nl.timeoutId);
         }
     });
+};
+
+AudioController.prototype.createWhiteNoise = function createWhiteNoise() {
+    const bufferSize = 2 * this.audioContext.sampleRate,
+        noiseBuffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate),
+        output = noiseBuffer.getChannelData(0);
+
+    for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+    }
+
+    const whiteNoise = this.audioContext.createBufferSource();
+    whiteNoise.buffer = noiseBuffer;
+    whiteNoise.loop = true;
+
+    return whiteNoise;
 };
 
 AudioController.prototype.initTrack = function initTrack(track) {
@@ -113,7 +138,7 @@ AudioController.prototype.initTrack = function initTrack(track) {
             ...nl,
             oscillator: this.audioContext.createOscillator(),
             gain: this.audioContext.createGain(),
-            noise: this.audioContext.createScriptProcessor(1024, 1, 1),
+            noise: this.createWhiteNoise(),
             timeoutId: null
         }
     });
@@ -125,18 +150,12 @@ AudioController.prototype.initTrack = function initTrack(track) {
             nl.oscillator.type = instrumentLookup[track.instrument];
         }
 
-        nl.noise.onaudioprocess = e => {
-            var output = e.outputBuffer.getChannelData(0);
-            for (var i = 0; i < 1024; i++) {
-                output[i] = (Math.random() * 2 - 1);
-            }
-        }
-
         nl.oscillator.frequency.value = nl.value;
         nl.gain.gain.value = 0;
         nl.oscillator.connect(nl.gain);
         nl.gain.connect(this.audioContext.destination);
         nl.oscillator.start();
+        nl.noise.start();
     });
 
     this.tracks.push(trackObject)
@@ -153,8 +172,8 @@ AudioController.prototype.updateInstrument = function updateInstrument(track, in
 
         if(CONST.INSTRUMENTS.NOISE.name === instrument) {
 
-            nl.oscillator.type = instrumentLookup[CONST.INSTRUMENTS.SQUARE.name];
-            nl.oscillator.connect(nl.noise);
+            // nl.oscillator.type = instrumentLookup[CONST.INSTRUMENTS.SQUARE.name];
+            // nl.oscillator.connect(nl.noise);
             nl.noise.connect(nl.gain);
             nl.gain.connect(this.audioContext.destination);
 
