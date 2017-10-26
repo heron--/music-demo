@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setBPM, setVolume, setPlaystate } from '../../actions';
+import CONST from '../../constants';
+import { setBPM, setVolume, setPlaystate, setModalMode } from '../../actions';
 import paletteImage from '../../images/palette.svg';
 import Slider from './components/Slider';
 import pauseButton from '../../images/pause-button.svg';
@@ -12,7 +13,8 @@ const Nav = ({
     controls,
     setBPM,
     setVolume,
-    setPlaystate
+    setPlaystate,
+    openAboutModal
 }) => {
 	return (
 		<nav className="nav">
@@ -27,7 +29,7 @@ const Nav = ({
                 <VolumeSlider setVolume={ setVolume } currentVolume={ controls.volume }/>
             </div>
 
-            <div className="nav-spacer">{/* Just here for some flexbox fun*/}</div>
+            <a onClick={e => {e.preventDefault(); openAboutModal(); }} className="nav-about">About</a>
 		</nav>
 	);
 };
@@ -85,7 +87,8 @@ function mapDispatchToProps(dispatch) {
     return {
         setBPM: value => dispatch(setBPM(value)),
         setVolume: value => dispatch(setVolume(value)),
-        setPlaystate: playstate => dispatch(setPlaystate(playstate))
+        setPlaystate: playstate => dispatch(setPlaystate(playstate)),
+        openAboutModal: () => dispatch(setModalMode(CONST.MODAL_MODES.ABOUT))
     }
 }
 

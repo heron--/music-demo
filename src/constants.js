@@ -112,7 +112,8 @@ const constants = {
     MODAL_MODES: {
         DELETE: 'DELETE',
         RENAME: 'RENAME',
-        COLOR: 'COLOR'
+        COLOR: 'COLOR',
+        ABOUT: 'ABOUT'
     },
     OCTAVE_COLORS: [
         'CYAN',

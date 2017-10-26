@@ -24,6 +24,16 @@
   font-size: 27px;
   color: #000;
 }
+.nav-about {
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 27px;
+  color: #000;
+  cursor: pointer;
+}
+.nav-about:hover {
+  text-decoration: underline;
+}
 .nav-controls {
   max-width: 1052px;
   width: 100%;
