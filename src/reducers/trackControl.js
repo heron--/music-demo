@@ -1,3 +1,5 @@
+import shortid from 'shortid';
+
 import freqs from '../frequencies';
 import CONST from '../constants';
 
@@ -8,7 +10,7 @@ export const initialState = {
 };
 
 export const initialNoteCount = 32;
-let trackIdAccumulator = 0;
+export const noteLaneIncrement = 16;
 
 const trackControl = (state = initialState, action) => {
     switch(action.type) {
@@ -17,9 +19,13 @@ const trackControl = (state = initialState, action) => {
         case 'UPDATE_TRACK_NAME':
         case 'UPDATE_TRACK_COLOR':
         case 'UPDATE_TRACK_INSTRUMENT':
+        case 'TRIGGER_PHONY_NOTE':
+
+            const newId = shortid.generate();
+
             return Object.assign({}, state, {
-                currentTrack: state.currentTrack === null ? trackIdAccumulator : state.currentTrack,
-                tracks: tracks(state.tracks, action)
+                currentTrack: state.currentTrack === null ? newId : state.currentTrack,
+                tracks: tracks(state.tracks, Object.assign({}, action, {newId}))
             });
         case 'DELETE_TRACK':
 
@@ -68,11 +74,12 @@ const trackControl = (state = initialState, action) => {
 const tracks = (state = [], action) => {
     switch(action.type) {
         case 'ADD_TRACK':
-            return [...state, track(undefined, action)]
+            return [...state, track(undefined, Object.assign({}, action, {totalTracks: state.length}))]
         case 'CYCLE_NOTE':
         case 'UPDATE_TRACK_NAME':
         case 'UPDATE_TRACK_COLOR':
         case 'UPDATE_TRACK_INSTRUMENT':
+        case 'TRIGGER_PHONY_NOTE':
             return state.map(t => t.id === action.id ? track(t, action) : t);
         default:
             return state;
@@ -83,8 +90,8 @@ const track = (state = {}, action) => {
     switch(action.type) {
         case 'ADD_TRACK':
             return {
-                name: `Track ${ trackIdAccumulator }`,
-                id: trackIdAccumulator++,
+                name: `Track ${ action.totalTracks }`,
+                id: action.newId,
                 color: CONST.COLORS.YELLOW.name,
                 instrument: CONST.INSTRUMENTS.SQUARE.name,
                 noteCount: initialNoteCount,
@@ -106,6 +113,11 @@ const track = (state = {}, action) => {
             return Object.assign({}, state, {
                 noteLanes: noteLanes(state.noteLanes, action)
             });
+        case 'TRIGGER_PHONY_NOTE':
+            return Object.assign({}, state, {
+                noteCount: state.noteCount + noteLaneIncrement,
+                noteLanes: noteLanes(state.noteLanes, action)
+            });
         default:
             return state; 
     }
@@ -117,6 +129,8 @@ const noteLanes = (state = [], action) => {
             return [...state, ...freqs.map(f => noteLane(null, Object.assign({}, action, {frequency: f})))]
         case 'CYCLE_NOTE':
             return state.map(nl => (nl.name === action.name && nl.octave === action.octave) ? noteLane(nl, action) : nl)
+        case 'TRIGGER_PHONY_NOTE':
+            return state.map(nl => noteLane(nl, action));
         default:
             return state;
     }
@@ -138,6 +152,7 @@ const noteLane = (state = {}, action) => {
                 notes: notes(undefined, action)
             };
         case 'CYCLE_NOTE':
+        case 'TRIGGER_PHONY_NOTE':
             return Object.assign({}, state, {
                 notes: notes(state.notes, action)
             });
@@ -153,6 +168,8 @@ const notes = (state = [], action) => {
             return [...new Array(action.noteCount)].map(() => note(undefined, action))
         case 'CYCLE_NOTE':
             return state.map((n, i) => i === action.index ? note(n, action) : n);
+        case 'TRIGGER_PHONY_NOTE':
+            return [...state, ...[...new Array(noteLaneIncrement)].map(() => note(undefined, action))]
         default:
             return state;
     }
@@ -161,6 +178,7 @@ const notes = (state = [], action) => {
 const note = (state = {}, action) => {
     switch(action.type) {
         case 'ADD_TRACK':
+        case 'TRIGGER_PHONY_NOTE':
             return {
                 active: false,
                 sustain: false

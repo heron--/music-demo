@@ -1,6 +1,15 @@
-import tracksReducer, { initialState, initialNoteCount } from '../trackControl';
+import tracksReducer, { initialState, initialNoteCount, noteLaneIncrement } from '../trackControl';
 import freq from '../../frequencies';
-import { addTrack, deleteTrack, updateTrackName, updateTrackColor, updateTrackInstrument, updateCurrentTrack, cycleNote } from '../../actions';
+import {
+    addTrack,
+    deleteTrack,
+    updateTrackName,
+    updateTrackColor,
+    updateTrackInstrument,
+    updateCurrentTrack,
+    cycleNote,
+    triggerPhonyNote
+} from '../../actions';
 
 function createAddTrackAction() {
     return addTrack();
@@ -28,6 +37,10 @@ function createUpdateCurrentTrackAction(id = 0) {
 
 function createCycleNoteAction(id = 0) {
     return cycleNote(id, 'F#', 3, 4);
+}
+
+function createTriggerPhonyNoteAction(id = 0) {
+    return triggerPhonyNote(id, 'F#', 3, 4);
 }
 
 describe('ADD_TRACK', () => {
@@ -265,4 +278,25 @@ describe('CYCLE_NOTE', () => {
         expect(note.sustain).toBe(false);
         expect(note.active).toBe(false);
     });
+});
+
+describe('TRIGGER_PHONY_NOTE', () => {
+    it('should increase the number of actual notes by 16', () => {
+        let state = initialState;
+        state = tracksReducer(state, createAddTrackAction());
+
+        let trackId = state.tracks[0].id; 
+        state = tracksReducer(state, createTriggerPhonyNoteAction(trackId));
+
+        let noteLane = state.tracks.filter(t => t.id === trackId)[0].noteLanes[0]; // Grabbing the first notelane from the track
+
+        expect(noteLane.notes.length).toBe(initialNoteCount + noteLaneIncrement);
+
+        state = tracksReducer(state, createTriggerPhonyNoteAction(trackId));
+
+        trackId = state.tracks[0].id; 
+        noteLane = state.tracks.filter(t => t.id === trackId)[0].noteLanes[0];
+
+        expect(noteLane.notes.length).toBe(initialNoteCount + noteLaneIncrement + noteLaneIncrement);
+    })
 });

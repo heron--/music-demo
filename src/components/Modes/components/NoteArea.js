@@ -7,7 +7,8 @@ const NoteArea = ({
     noteLanes,
     cycleNote,
     trackId,
-    notePosition
+    notePosition,
+    triggerPhonyNote
 }) => {
 
     if(typeof noteLanes === 'undefined') {
@@ -17,7 +18,7 @@ const NoteArea = ({
     return (
         <div className="note-area">
             {
-                noteLanes.map(nl => <NoteLane key={`${nl.name}-${nl.octave}`} {...nl} cycleNote={ cycleNote } trackId={ id } notePosition={ notePosition } />) 
+                noteLanes.map(nl => <NoteLane key={`${nl.name}-${nl.octave}`} {...nl} cycleNote={ cycleNote } trackId={ id } notePosition={ notePosition } triggerPhonyNote={triggerPhonyNote}/>) 
             }
         </div>
     );
@@ -35,7 +36,8 @@ class NoteLane extends Component {
             name,
             octave,
             notes,
-            cycleNote
+            cycleNote,
+            triggerPhonyNote
         } = this.props;
 
         const octaveColor = CONST.COLORS[CONST.OCTAVE_COLORS[octave]];
@@ -77,7 +79,7 @@ class NoteLane extends Component {
                             });
 
                             return (
-                                <div key={ i } className={ noteClasses }>
+                                <div key={ i } className={ noteClasses } onClick={() => triggerPhonyNote(trackId, name, octave, i)}>
                                     <div></div>
                                 </div>
                             ); 

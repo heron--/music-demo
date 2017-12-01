@@ -14,7 +14,8 @@ import {
     updateTrackColor,
     setModalMode,
     closeModal,
-    cycleNote
+    cycleNote,
+    triggerPhonyNote
 } from '../../actions';
 
 class App extends Component {
@@ -52,7 +53,8 @@ class App extends Component {
             updateCurrentTrack,
             updateTrackInstrument,
             setModalMode,
-            cycleNote
+            cycleNote,
+            triggerPhonyNote
         } = props;
 
         const selectInstrument = instrument => updateTrackInstrument(trackControl.currentTrack, instrument);
@@ -66,6 +68,7 @@ class App extends Component {
                     setModalMode={ setModalMode }
                     selectInstrument={ selectInstrument }
                     cycleNote={ cycleNote }
+                    triggerPhonyNote={ triggerPhonyNote }
                 />;
             case CONST.MODES.ARRANGE:
                 return <Modes.Arrange />
@@ -113,7 +116,8 @@ function mapDispatchToProps(dispatch) {
         updateTrackColor: (id, color) => dispatch(updateTrackColor(id, color)),
         setModalMode: mode => dispatch(setModalMode(mode)),
         closeModal: () => dispatch(closeModal()),
-        cycleNote: (id, name, octave, index) => dispatch(cycleNote(id, name, octave, index))
+        cycleNote: (id, name, octave, index) => dispatch(cycleNote(id, name, octave, index)),
+        triggerPhonyNote: (id, name, octave, index) => dispatch(triggerPhonyNote(id, name, octave, index))
     };
 }
 

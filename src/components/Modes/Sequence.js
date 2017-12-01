@@ -12,7 +12,8 @@ const Sequence = ({
     addTrack,
     setModalMode,
     selectInstrument,
-    cycleNote
+    cycleNote,
+    triggerPhonyNote
 }) => {
 
     const currentTrackObj = tracks.filter(t => t.id === currentTrack)[0];
@@ -23,7 +24,7 @@ const Sequence = ({
             <TrackTabList tracks={ tracks } currentTrack={ currentTrack } updateCurrentTrack={ updateCurrentTrack } addTrack={ addTrack } />
             <div className="display-area display-area--sequence">
                 <SequenceControls setModalMode={ setModalMode } hideControls={ tracks.length === 0 } currentInstrument={ currentInstrument } selectInstrument={ selectInstrument }/>
-                <NoteArea { ...(currentTrackObj === 'undefined') ? {} : currentTrackObj } cycleNote={ cycleNote } notePosition={ notePosition } />
+                <NoteArea { ...(currentTrackObj === 'undefined') ? {} : currentTrackObj } cycleNote={ cycleNote } notePosition={ notePosition } triggerPhonyNote={ triggerPhonyNote } />
             </div>
         </div>
     );
